@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="map_record_read_note">메모</string>
+    <string name="map_record_read_favorite">즐겨찾기</string>
+    <string name="map_record_read_empty">저장된 메모가 없어요.</string>
+    <string name="map_record_read_close">닫기</string>
+    <string name="map_record_read_delete">삭제</string>
+    <string name="map_record_read_delete_description">기록 삭제</string>
+    <string name="map_record_read_navigation">이 기록 위치 길안내</string>
+    <item name="map_record_read_title" type="id" />
+    <item name="map_record_read_body" type="id" />
+    <item name="map_record_read_close" type="id" />
+    <item name="map_record_read_delete" type="id" />
+    <item name="map_record_action_error" type="id" />
+    <item name="map_record_read_navigation" type="id" />
+    <item name="map_record_nearby_stores" type="id" />
+</resources>

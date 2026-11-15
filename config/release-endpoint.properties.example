@@ -1,0 +1,4 @@
+# Copy to .local-dev/release-endpoint.properties.
+# Public HTTPS base URL only, for example https://places.example.com/chagok
+# No API secret, credentials, query string or fragment.
+placesProxyUrl=

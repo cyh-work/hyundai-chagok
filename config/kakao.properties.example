@@ -1,0 +1,2 @@
+# Copy to .local-dev/kakao.properties and set your own Kakao native app key.
+nativeAppKey=

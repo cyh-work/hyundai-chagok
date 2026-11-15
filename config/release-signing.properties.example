@@ -1,0 +1,6 @@
+# Copy to .local-dev/release-signing.properties and use your own signing key.
+# storeFile may be relative to the repository root; prefer forward slashes.
+storeFile=
+keyAlias=
+storePassword=
+keyPassword=

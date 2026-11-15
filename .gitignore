@@ -1,0 +1,38 @@
+# 개인 설정과 인증정보
+.local-dev/
+local.properties
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.pem
+*.key
+.env
+.env.*
+api.txt
+**/store-api.properties
+**/kakao.properties
+**/release-endpoint.properties
+**/release-signing.properties
+
+# 빌드·IDE·시험 산출물
+.gradle/
+**/build/
+.idea/
+*.iml
+.kotlin/
+__pycache__/
+*.pyc
+*.log
+*.apk
+*.aab
+*.hprof
+.DS_Store
+Thumbs.db
+
+# 운영·제출·개인 작업 자료
+server/
+submission/
+video/
+AGENTS.md
+memory.md

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="map_revisit_title">다시 온 곳 · %1$s</string>
+    <string name="map_revisit_open">다시 온 곳 · %1$s · %2$s · 기록 열기</string>
+    <string name="map_revisit_close">재방문 카드 닫기</string>
+    <item name="map_revisit_card" type="id" />
+    <item name="map_revisit_title" type="id" />
+    <item name="map_revisit_body" type="id" />
+    <item name="map_revisit_type_icon" type="id" />
+    <item name="map_revisit_close" type="id" />
+</resources>

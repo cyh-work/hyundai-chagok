@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="map_history_title">히스토리</string>
+    <string name="map_history_open">메모와 즐겨찾기 히스토리 열기</string>
+    <string name="map_history_close">히스토리 닫기</string>
+    <string name="map_history_empty">아직 남긴 기록이 없어요.</string>
+    <item name="map_history_button" type="id" />
+    <item name="map_history_title" type="id" />
+    <item name="map_history_close" type="id" />
+    <item name="map_history_list" type="id" />
+</resources>

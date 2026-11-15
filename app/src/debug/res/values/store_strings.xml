@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="stores_restaurant">음식점</string>
+    <string name="stores_cafe">카페</string>
+    <string name="stores_convenience">편의점</string>
+    <string name="stores_tourist_attraction">관광지</string>
+    <string name="stores_retry">새로고침</string>
+    <string name="stores_close">닫기</string>
+    <string name="stores_loading">가까운 장소를 찾고 있어요.</string>
+    <string name="stores_empty">결과 없음</string>
+    <string name="stores_distance">%1$dm</string>
+    <string name="stores_show_on_map">%1$s 지도에서 보기</string>
+    <string name="place_navigation_start">길안내</string>
+    <string name="place_navigation_connecting">연결 중…</string>
+    <string name="place_navigation_destination">%1$s 길안내</string>
+    <string name="place_navigation_connection_failed">기본 내비에 연결하지 못했어요. 다시 눌러 주세요.</string>
+    <string name="place_navigation_request_failed">길 안내를 시작하지 못했어요. 다시 눌러 주세요.</string>
+    <string name="place_navigation_timeout">내비 응답이 늦어요. 다시 눌러 주세요.</string>
+    <string name="stores_unavailable">지금은 장소 정보를 연결할 수 없어요. 잠시 후 다시 확인해 주세요.</string>
+    <string name="stores_invalid_location">지도에서 위치를 다시 선택해 주세요.</string>
+    <string name="stores_limit">지금은 조회가 많아요. 잠시 후 다시 확인해 주세요.</string>
+    <string name="stores_retry_later">장소 정보를 가져오지 못했어요. 잠시 후 다시 확인해 주세요.</string>
+    <string name="store_detail_title">장소 정보</string>
+    <string name="store_detail_address">주소</string>
+    <string name="store_detail_road_address">도로명 주소</string>
+    <string name="store_detail_phone">전화</string>
+    <string name="store_detail_distance_value">선택 위치에서 %1$dm</string>
+    <string name="store_detail_back">목록으로</string>
+    <string name="store_detail_map">지도에서 보기</string>
+    <string name="store_detail_no_location">이 장소의 지도 위치가 제공되지 않았어요.</string>
+    <string name="store_detail_source">장소 정보 · 카카오</string>
+</resources>

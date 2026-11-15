@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">차곡</string>
+    <string name="map_area">서울역 일대 시연 지도</string>
+    <string name="location_waiting">Pleos에서 차량 위치를 확인하고 있습니다.</string>
+    <string name="location_unavailable">Pleos에서 차량 위치를 받지 못했습니다.</string>
+    <string name="location_outside_map">차량 위치를 받았습니다. 서울역 시연 범위 밖입니다.</string>
+    <string name="location_on_map">파란 점이 차량 위치입니다.</string>
+    <string name="location_request">차량 위치 다시 확인</string>
+    <string name="map_accessibility">서울역 주변 도로와 장소 지도</string>
+    <string name="map_attribution">© OpenStreetMap contributors · ODbL</string>
+    <string name="map_gestures">☆ 별표로 즐겨찾기\n○ 원으로 장소 정보\n╱ 선으로 서울역 경유 제안</string>
+    <string name="map_gesture_ready">지도에서 장소를 골라 그려보세요.</string>
+    <string name="map_place_info">%1$s\n%2$s</string>
+    <string name="map_favorite_added">%1$s\n즐겨찾기에 저장했습니다.</string>
+    <string name="map_favorite_removed">%1$s\n즐겨찾기에서 해제했습니다.</string>
+    <string name="map_waypoint_suggestion">%1$s 경유 제안\n여기를 거쳐 서울역으로 갈까요?</string>
+    <string name="map_gesture_unknown">가까운 장소에 별이나 원을 그리거나, 경유할 도로 쪽으로 선을 그려보세요.</string>
+    <string name="waypoint_request">이 지점을 거쳐 서울역으로</string>
+    <string name="route_request">서울역으로 바로 안내</string>
+    <string name="route_connecting">내비에 연결하고 있습니다.</string>
+    <string name="route_ready">Pleos 내비 연결됨</string>
+    <string name="route_pending">서울역 경로를 요청했습니다.</string>
+    <string name="route_started">서울역 경로 정보를 받았습니다.</string>
+    <string name="route_calculated">경로 계산을 마쳤습니다. 목적지를 확인하고 있습니다.</string>
+    <string name="route_confirmed">%1$s 안내 중 · 남은 거리 %2$,d m</string>
+    <string name="route_failed">내비 요청을 처리하지 못했습니다.</string>
+    <string name="route_timeout">내비 응답이 지연되고 있습니다.</string>
+    <string name="route_reconnect">내비 연결 다시 시도</string>
+    <string name="waypoint_confirmed">%1$s 경유 확인 · 서울역까지 %2$,d m</string>
+    <string name="waypoint_name_received">경유지 응답 수신 · 서울역까지 %2$,d m\n%1$s의 좌표는 응답에 없습니다.</string>
+</resources>

@@ -1,0 +1,133 @@
+plugins {
+    id 'com.android.application'
+}
+
+// 빌드 중간 산출물은 요청한 별도 디스크에 모아 작업 디스크의 여유를 보존한다.
+def externalBuildDirectory = providers.gradleProperty('chagokBuildDir').orNull
+if (externalBuildDirectory != null && !externalBuildDirectory.trim().isEmpty()) {
+    layout.buildDirectory.set(new File(externalBuildDirectory, 'app'))
+}
+
+// 개인별 앱 키는 버전 관리에서 제외한 설정 파일 한 곳에서 읽는다.
+def kakaoProperties = new Properties()
+def kakaoPropertiesFile = rootProject.file('.local-dev/kakao.properties')
+if (kakaoPropertiesFile.isFile()) {
+    kakaoPropertiesFile.withInputStream { input ->
+        kakaoProperties.load(input)
+    }
+}
+def kakaoNativeAppKey = kakaoProperties.getProperty('nativeAppKey', '').trim()
+if (!kakaoNativeAppKey.isEmpty() && !(kakaoNativeAppKey ==~ /[a-fA-F0-9]{32}/)) {
+    throw new GradleException('카카오 네이티브 앱 키 형식을 확인하세요. 키 원문은 출력하지 않습니다.')
+}
+
+// 중계 주소는 공개 설정이며 REST 키와 분리한다. 미설정 앱도 지도를 실행할 수 있다.
+def releaseEndpointProperties = new Properties()
+def releaseEndpointFile = rootProject.file('.local-dev/release-endpoint.properties')
+if (releaseEndpointFile.isFile()) {
+    releaseEndpointFile.withInputStream { input ->
+        releaseEndpointProperties.load(input)
+    }
+}
+def placesProxyUrl = releaseEndpointProperties.getProperty('placesProxyUrl', '').trim()
+if (!placesProxyUrl.isEmpty()) {
+    try {
+        def endpoint = new java.net.URI(placesProxyUrl)
+        def host = endpoint.host
+        def path = endpoint.rawPath
+        def validPath = path != null && (path in ['', '/'] || (path ==~ /\/[A-Za-z0-9_-]+(?:\/[A-Za-z0-9_-]+)*\/?/))
+        def validHost = host != null && (host ==~ /(?i)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+/)
+        if (!'https'.equalsIgnoreCase(endpoint.scheme) || !validHost
+                || (host ==~ /[0-9.]+/) || host.toLowerCase(java.util.Locale.ROOT).endsWith('.localhost')
+                || endpoint.userInfo != null || endpoint.query != null || endpoint.fragment != null
+                || !(endpoint.port in [-1, 443]) || !validPath) {
+            throw new IllegalArgumentException('INVALID_PROXY_URL')
+        }
+    } catch (java.net.URISyntaxException | IllegalArgumentException failure) {
+        throw new GradleException('주변 장소 중계 주소는 인증값 없는 공개 HTTPS 주소와 영문·숫자·밑줄·하이픈 경로로 설정하세요.')
+    }
+}
+
+// 제출 서명은 버전 관리에서 제외한 개인 설정에서만 읽고 원문을 출력하지 않는다.
+def releaseSigningProperties = new Properties()
+def releaseSigningFile = rootProject.file('.local-dev/release-signing.properties')
+if (releaseSigningFile.isFile()) {
+    releaseSigningFile.withInputStream { input ->
+        releaseSigningProperties.load(input)
+    }
+    for (propertyName in ['storeFile', 'keyAlias', 'storePassword', 'keyPassword']) {
+        if (releaseSigningProperties.getProperty(propertyName, '').trim().isEmpty()) {
+            throw new GradleException('제출 서명 설정의 필수 항목을 확인하세요. 인증정보는 출력하지 않습니다.')
+        }
+    }
+    if (!rootProject.file(releaseSigningProperties.getProperty('storeFile')).isFile()) {
+        throw new GradleException('제출 서명 파일을 찾지 못했습니다. 개인 설정을 확인하세요.')
+    }
+}
+
+
+dependencies {
+    implementation 'ai.pleos.playground:NaviHelper:3.0.5'
+    implementation 'ai.pleos.playground:SpeechToText:3.3.1'
+    implementation 'com.kakaomobility.knsdk:knsdk_ui:1.12.8-hotfix05'
+}
+
+android {
+    namespace 'com.example.pleosstarter'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'com.example.pleosstarter'
+        minSdk 28
+        targetSdk 34
+        versionCode 2
+        versionName '1.0.0'
+        buildConfigField 'String', 'KAKAO_NATIVE_APP_KEY', '"' + kakaoNativeAppKey + '"'
+        buildConfigField 'String', 'PLACES_PROXY_URL', groovy.json.JsonOutput.toJson(placesProxyUrl)
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    signingConfigs {
+        release {
+            if (releaseSigningFile.isFile()) {
+                storeFile rootProject.file(releaseSigningProperties.getProperty('storeFile'))
+                storePassword releaseSigningProperties.getProperty('storePassword')
+                keyAlias releaseSigningProperties.getProperty('keyAlias')
+                keyPassword releaseSigningProperties.getProperty('keyPassword')
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            debuggable false
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+    }
+
+    // 검증 도구가 참조하는 기존 소스 위치를 유지하면서 제품 구현을 release에도 연결한다.
+    sourceSets {
+        release {
+            java.srcDir 'src/debug/java'
+            java.exclude 'com/example/pleosstarter/overlay/**'
+            res.srcDir 'src/debug/res'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+// 키 또는 서명이 빠진 결과를 제출용 APK로 오인하지 않도록 출시 작업은 사전에 막는다.
+def releaseRequested = gradle.startParameter.taskNames.any { taskName ->
+    taskName.toLowerCase(java.util.Locale.ROOT).contains('release')
+}
+if (releaseRequested && (kakaoNativeAppKey.isEmpty() || !releaseSigningFile.isFile())) {
+    throw new GradleException('Release requires your own Kakao native app key and release signing configuration. See BUILDING.md.')
+}
